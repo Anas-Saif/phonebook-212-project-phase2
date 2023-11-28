@@ -63,7 +63,7 @@ public class Contact implements Comparable <String>{
     }
 
 
-    public void setEventsInContact(Event s){
+    /*public void setEventsInContact(Event s){
         if (!eventsInContact.empty()){
 
             eventsInContact.findFirst();
@@ -86,7 +86,7 @@ public class Contact implements Comparable <String>{
         }
         eventsInContact.insert(s);
         return;
-    }
+    }*/
     public String getContactName() {
         return contactName;
     }
