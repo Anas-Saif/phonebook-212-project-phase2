@@ -1,32 +1,6 @@
+import java.lang.Boolean;
 public class ContactBST <T>{
-
-    public int key;
-    public T data;
-    public ContactBST<T> left, right;
-
-    ContactBST<T> root, current;
-
-    /**
-     * Creates a new instance of BSTNode
-     */
-    public ContactBST(int k, T val) {
-        key = k;
-        data = val;
-        left = right = null;
-    }
-
-    public ContactBST(int k, T val, ContactBST<T> l, ContactBST<T> r) {
-        key = k;
-        data = val;
-        left = l;
-        right = r;
-    }
-
-
-
-    /**
-     * Creates a new instance of BST
-     */
+    BSTNode<T> root, current;
     public ContactBST() {
         root = current = null;
     }
@@ -46,7 +20,7 @@ public class ContactBST <T>{
 
 
     public boolean findkey(int tkey) {
-        ContactBST<T> p = root, q = root;
+        BSTNode<T> p = root, q = root;
 
         if (empty())
             return false;
@@ -67,14 +41,14 @@ public class ContactBST <T>{
     }
 
     public boolean insert(int k, T val) {
-        ContactBST<T> p, q = current;
+        BSTNode<T> p, q = current;
 
         if (findkey(k)) {
             current = q;  // findkey() modified current
             return false; // key already in the BST
         }
 
-        p = new ContactBST<T>(k, val);
+        p = new BSTNode<>(k, val);
         if (empty()) {
             root = current = p;
             return true;
@@ -90,8 +64,8 @@ public class ContactBST <T>{
     }
 
     public boolean remove_key(int tkey) {
-        Boolean removed = new Boolean(false);
-        ContactBST<T> p;
+        boolean removed = false;
+        BSTNode<T> p;
         p = remove_aux(tkey, root, removed);
         current = root = p;
         return removed;
@@ -105,15 +79,15 @@ public class ContactBST <T>{
     //        return removed.get();
     //    }
 
-    private ContactBST<T> remove_aux(int key, ContactBST<T> p, BooleanWrapper flag) {
-        ContactBST<T> q, child = null;
+    private BSTNode<T> remove_aux(int key, BSTNode<T> p, Boolean flag) {
+        BSTNode<T> q, child = null;
         if (p == null) return null;
         if (key < p.key)
             p.left = remove_aux(key, p.left, flag); //go left
         else if (key > p.key)
             p.right = remove_aux(key, p.right, flag); //go right
         else { // key is found
-            flag.set(true);
+            flag=true;
             if (p.left != null && p.right != null) { //two children
                 q = find_min(p.right);
                 p.key = q.key;
@@ -130,7 +104,7 @@ public class ContactBST <T>{
         return p;
     }
 
-    private ContactBST<T> find_min(ContactBST<T> p) {
+    private BSTNode<T> find_min(BSTNode<T> p) {
         if (p == null)
             return null;
 
@@ -148,8 +122,8 @@ public class ContactBST <T>{
 
     public boolean removeKey(int k) {
         int k1 = k;
-        ContactBST<T> p = root;
-        ContactBST<T> q = null;
+        BSTNode<T> p = root;
+        BSTNode<T> q = null;
 
         while (p != null) {
             if (k1 < p.key) {
@@ -162,7 +136,7 @@ public class ContactBST <T>{
             }
             else{
                 if ((p.left != null) && (p.right != null)){
-                    ContactBST<T> min = p.right;
+                    BSTNode<T> min = p.right;
                     q = p;
                     while (min.left != null) {
                         q = min;
