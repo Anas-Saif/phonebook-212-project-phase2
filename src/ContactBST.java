@@ -1,4 +1,3 @@
-import java.lang.Boolean;
 public class ContactBST <T>{
     BSTNode<T> root, current;
     public ContactBST() {
@@ -120,7 +119,7 @@ public class ContactBST <T>{
         return insert(key, data);
     }
 
-    public boolean removeKey(int k) {
+    /*public boolean removeKey(int k) {
         int k1 = k;
         BSTNode<T> p = root;
         BSTNode<T> q = null;
@@ -171,5 +170,5 @@ public class ContactBST <T>{
 
         }
         return false;
-    }
+    }*/
 }
