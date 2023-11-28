@@ -1,50 +1,49 @@
 public class ContactBST <T>{
 
-    public class ContactBST<T> {
-        public int key;
-        public T data;
-        public ContactBST<T> left, right;
+    public int key;
+    public T data;
+    public ContactBST<T> left, right;
 
-        /**
-         * Creates a new instance of BSTNode
-         */
-        public ContactBST(int k, T val) {
-            key = k;
-            data = val;
-            left = right = null;
-        }
+    ContactBST<T> root, current;
 
-        public ContactBST(int k, T val, ContactBST<T> l, ContactBST<T> r) {
-            key = k;
-            data = val;
-            left = l;
-            right = r;
-        }
+    /**
+     * Creates a new instance of BSTNode
+     */
+    public ContactBST(int k, T val) {
+        key = k;
+        data = val;
+        left = right = null;
     }
 
-    public class BST<T> {
-        ContactBST<T> root, current;
-
-        /**
-         * Creates a new instance of BST
-         */
-        public BST() {
-            root = current = null;
-        }
-
-        public boolean empty() {
-            return root == null;
-        }
-
-        public boolean full() {
-            return false;
-        }
-
-        public T retrieve() {
-            return current.data;
-        }
-
+    public ContactBST(int k, T val, ContactBST<T> l, ContactBST<T> r) {
+        key = k;
+        data = val;
+        left = l;
+        right = r;
     }
+
+
+
+    /**
+     * Creates a new instance of BST
+     */
+    public ContactBST() {
+        root = current = null;
+    }
+
+    public boolean empty() {
+        return root == null;
+    }
+
+    public boolean full() {
+        return false;
+    }
+
+    public T retrieve() {
+        return current.data;
+    }
+
+
 
     public boolean findkey(int tkey) {
         ContactBST<T> p = root.q = root;
@@ -98,13 +97,13 @@ public class ContactBST <T>{
         return removed;
     }
 
-//    public boolean remove_key(int tkey) {
-//        BooleanWrapper removed = new BooleanWrapper(false);
-//        BSTNode<T> p;
-//        p = remove_aux(tkey, root, removed);
-//        current = root = p;
-//        return removed.get();
-//    }
+    //    public boolean remove_key(int tkey) {
+    //        BooleanWrapper removed = new BooleanWrapper(false);
+    //        BSTNode<T> p;
+    //        p = remove_aux(tkey, root, removed);
+    //        current = root = p;
+    //        return removed.get();
+    //    }
 
     private ContactBST<T> remove_aux(int key, ContactBST<T> p, BooleanWrapper flag) {
         ContactBST<T> q, child = null;
