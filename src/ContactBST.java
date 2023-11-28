@@ -46,7 +46,7 @@ public class ContactBST <T>{
 
 
     public boolean findkey(int tkey) {
-        ContactBST<T> p = root.q = root;
+        ContactBST<T> p = root, q = root;
 
         if (empty())
             return false;
