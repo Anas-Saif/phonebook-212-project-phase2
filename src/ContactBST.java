@@ -18,7 +18,7 @@ public class ContactBST <T>{
 
 
 
-    public boolean findkey(int tkey) {
+    public boolean findkey(String tkey) {
         BSTNode<T> p = root, q = root;
 
         if (empty())
@@ -26,10 +26,11 @@ public class ContactBST <T>{
 
         while (p != null) {
             q = p;
-            if (p.key == tkey) {
+            int cmp = tkey.compareTo(p.key);
+            if (cmp == 0) {
                 current = p;
                 return true;
-            } else if (tkey < p.key)
+            } else if (cmp < 0)
                 p = p.left;
             else
                 p = p.right;
@@ -39,11 +40,12 @@ public class ContactBST <T>{
         return false;
     }
 
-    public boolean insert(int k, T val) {
+
+    public boolean insert(String k, T val) {
         BSTNode<T> p, q = current;
 
         if (findkey(k)) {
-            current = q;  // findkey() modified current
+            current = q; // findkey() modified current
             return false; // key already in the BST
         }
 
@@ -52,8 +54,7 @@ public class ContactBST <T>{
             root = current = p;
             return true;
         } else {
-            // current is pointing to parent of the new key
-            if (k < current.key)
+            if (k.compareTo(current.key) < 0)
                 current.left = p;
             else
                 current.right = p;
@@ -62,7 +63,8 @@ public class ContactBST <T>{
         }
     }
 
-    public boolean remove_key(int tkey) {
+
+    public boolean remove_key(String tkey) {
         boolean removed = false;
         BSTNode<T> p;
         p = remove_aux(tkey, root, removed);
@@ -78,24 +80,25 @@ public class ContactBST <T>{
     //        return removed.get();
     //    }
 
-    private BSTNode<T> remove_aux(int key, BSTNode<T> p, Boolean flag) {
+    private BSTNode<T> remove_aux(String key, BSTNode<T> p, Boolean flag) {
         BSTNode<T> q, child = null;
         if (p == null) return null;
-        if (key < p.key)
-            p.left = remove_aux(key, p.left, flag); //go left
-        else if (key > p.key)
-            p.right = remove_aux(key, p.right, flag); //go right
+        int cmp = key.compareTo(p.key);
+        if (cmp < 0)
+            p.left = remove_aux(key, p.left, flag); // go left
+        else if (cmp > 0)
+            p.right = remove_aux(key, p.right, flag); // go right
         else { // key is found
-            flag=true;
-            if (p.left != null && p.right != null) { //two children
+            flag = true;
+            if (p.left != null && p.right != null) { // two children
                 q = find_min(p.right);
                 p.key = q.key;
                 p.data = q.data;
                 p.right = remove_aux(q.key, p.right, flag);
             } else {
-                if (p.right == null) //one child
+                if (p.right == null) // one child
                     child = p.left;
-                else if (p.left == null) //one child
+                else if (p.left == null) // one child
                     child = p.right;
                 return child;
             }
@@ -114,7 +117,7 @@ public class ContactBST <T>{
         return p;
     }
 
-    public boolean update(int key, T data) {
+    public boolean update(String key, T data) {
         remove_key(current.key);
         return insert(key, data);
     }
