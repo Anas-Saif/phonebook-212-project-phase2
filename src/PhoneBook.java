@@ -47,10 +47,9 @@ public class PhoneBook {
 
 
             Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
-            String key=contactName.split(" ")[0];
 
             // Check if the contact already exists and add it to the phonebook
-            if (phoneBook.insert(key, tmp)) {
+            if (phoneBook.insert(contactName, tmp)) {
                 System.out.println("Added Successfully");
             } else {
                 System.out.println("Contact already exists");
@@ -62,7 +61,47 @@ public class PhoneBook {
         return;
     }
     // Method to search for a contact in the phonebook
-    public void search () {
+    public void searchByName () {
+        System.out.print("Enter contact name: ");
+        String contactName = input.nextLine();
+        contactName = contactName.toLowerCase();
+        if (phoneBook.findkey(contactName)) {
+            Contact tmp = phoneBook.retrieve();
+            System.out.print (tmp.toString()) ;// Print the contact details
+        } else {
+            System.out.println("Contact not found");
+        }
+        return;
+    }
+    // Method to search for a contact by phone number
+    public void searchByPhoneNumber () {
+        System.out.print("Enter contact Phone Number: ");
+        String contactPhoneNumber = input.next();
+
+        //check phone number format
+        while (!contactPhoneNumber.matches("\\d{10}")) {
+            System.out.println("Wrong Phone number format! Please enter 10 numeric digits.");
+            System.out.print("Enter contact Phone Number: ");
+            contactPhoneNumber = input.next();
+        }
+        if (phoneBook.findkey(contactPhoneNumber)) {
+            Contact tmp = phoneBook.retrieve();
+            System.out.print (tmp.toString()) ;// Print the contact details
+        } else {
+            System.out.println("Contact not found");
+        }
+        return;
+    }
+
+
+
+
+
+
+
+
+
+    public void searchByFirstName () {
         System.out.print("Enter contact name: ");
         String contactName = input.nextLine();
         contactName = contactName.toLowerCase();
@@ -75,4 +114,5 @@ public class PhoneBook {
         }
         return;
     }
+
 }

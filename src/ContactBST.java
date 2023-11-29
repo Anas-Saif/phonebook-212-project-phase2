@@ -16,8 +16,6 @@ public class ContactBST <T>{
         return current.data;
     }
 
-
-
     public boolean findkey(String tkey) {
         BSTNode<T> p = root, q = root;
 
