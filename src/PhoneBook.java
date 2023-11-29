@@ -3,7 +3,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class PhoneBook {
-    private ContactBST <Contact> phoneBook = new ContactBST<>(); // Create a Phonebook object
+    private final ContactBST <Contact> phoneBook = new ContactBST<>(); // Create a Phonebook object
     Scanner input = new Scanner(System.in); // Create a Scanner object
 
     // Method to add a new contact to the phonebook
@@ -51,19 +51,41 @@ public class PhoneBook {
                     contactAddress, contactBirthday, contactNotes);
 
             // Check if the contact already exists using in-order traversal
-            if (!phoneBook.contactExists(contactName, contactPhone)) {
+            if (!contactExists(contactName, contactPhone)) {
                 if (phoneBook.insert(contactName, newContact)) {
-                    System.out.println("Added Successfully");
+                    System.out.println("Contact added successfully.");
                 } else {
-                    System.out.println("Error adding contact");
+                    System.out.println("Error adding contact.");
                 }
             } else {
-                System.out.println("Contact with this name or phone number already exists");
+                System.out.println("A contact with the same name or phone number already exists.");
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Input mismatch");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
-        return;
+    }
+
+    // Helper method to check if a contact exists
+    private boolean contactExists(String name, String phoneNumber) {
+        return contactExistsInOrder(phoneBook.root, name, phoneNumber);
+    }
+
+    private boolean contactExistsInOrder(BSTNode<Contact> node, String name, String phoneNumber) {
+        if (node == null) {
+            return false;
+        }
+
+        if (contactExistsInOrder(node.left, name, phoneNumber)) {
+            return true;
+        }
+
+        Contact contact = node.data;
+        if (contact.getContactName().equalsIgnoreCase(name) ||
+                contact.getContactPhone().equals(phoneNumber)) {
+            return true;
+        }
+
+        return contactExistsInOrder(node.right, name, phoneNumber);
     }
     // Method to search for a contact in the phonebook
     public void searchByName () {
@@ -76,7 +98,6 @@ public class PhoneBook {
         } else {
             System.out.println("Contact not found");
         }
-        return;
     }
     // Method to search for a contact by phone number
     public void searchByPhoneNumber() {

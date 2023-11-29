@@ -111,7 +111,6 @@ public class ContactBST <T>{
         while (p.left != null) {
             p = p.left;
         }
-
         return p;
     }
 
@@ -119,32 +118,4 @@ public class ContactBST <T>{
         remove_key(current.key);
         return insert(key, data);
     }
-
-    // New Changes
-
-    public boolean contactExists(String name, String phoneNumber) {
-        return inOrderTraversal(root, name, phoneNumber);
-    }
-
-    private boolean inOrderTraversal(BSTNode<T> node, String name, String phoneNumber) {
-        if (node != null) {
-            // Traverse the left subtree
-            if (inOrderTraversal(node.left, name, phoneNumber)) {
-                return true;
-            }
-
-            // Check the current node
-            Contact contact = (Contact) node.data;
-            if (contact.getContactName().equalsIgnoreCase(name) ||
-                    contact.getContactPhone().equals(phoneNumber)) {
-                return true;
-            }
-
-            // Traverse the right subtree
-            return inOrderTraversal(node.right, name, phoneNumber);
-        }
-        return false;
-    }
-
-    /////////////////////////////////////////////////////////////////
 }
