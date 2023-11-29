@@ -120,56 +120,31 @@ public class ContactBST <T>{
         return insert(key, data);
     }
 
-    /*public boolean removeKey(int k) {
-        int k1 = k;
-        BSTNode<T> p = root;
-        BSTNode<T> q = null;
+    // New Changes
 
-        while (p != null) {
-            if (k1 < p.key) {
-                q = p;
-                p = p.left;
-            }
-            else if (k1 > p.key) {
-                q = p;
-                p = p.right;
-            }
-            else{
-                if ((p.left != null) && (p.right != null)){
-                    BSTNode<T> min = p.right;
-                    q = p;
-                    while (min.left != null) {
-                        q = min;
-                        min = min.left;
-                    }
-                    p.key = min.key;
-                    p.data = min.data;
-                    k1 = min.key;
-                    p = min;
+    public boolean contactExists(String name, String phoneNumber) {
+        return inOrderTraversal(root, name, phoneNumber);
+    }
 
-                }
-            }
-            if (p.left != null){
-                p = p.left;
-            }
-            else {
-                p = p.right;
+    private boolean inOrderTraversal(BSTNode<T> node, String name, String phoneNumber) {
+        if (node != null) {
+            // Traverse the left subtree
+            if (inOrderTraversal(node.left, name, phoneNumber)) {
+                return true;
             }
 
-            if (q == null) {
-                root = p;
-            } else {
-                if (k1 < q.key) {
-                    q.left = p;
-                }
-                else{
-                    q.right = p;
-                }
+            // Check the current node
+            Contact contact = (Contact) node.data;
+            if (contact.getContactName().equalsIgnoreCase(name) ||
+                    contact.getContactPhone().equals(phoneNumber)) {
+                return true;
             }
-            current = root;
-            return true;
 
+            // Traverse the right subtree
+            return inOrderTraversal(node.right, name, phoneNumber);
         }
         return false;
-    }*/
+    }
+
+    /////////////////////////////////////////////////////////////////
 }

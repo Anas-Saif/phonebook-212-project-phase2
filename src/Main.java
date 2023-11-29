@@ -1,4 +1,4 @@
-/*
+
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        Phonebook mainPhoneBook = new Phonebook();
+        PhoneBook mainPhoneBook = new PhoneBook();
         while (true) {
             try {
                 System.out.println("Welcome to the LinkedTree Phonebook!");
@@ -34,15 +34,15 @@ public class Main {
                         break;
                     }
                     case 3: {
-                        mainPhoneBook.deleteContact();
+//                        mainPhoneBook.deleteContact();
                         break;
                     }
                     case 4: {
-                        mainPhoneBook.addEvent();
+//                        mainPhoneBook.addEvent();
                         break;
                     }
                     case 5: {
-                        mainPhoneBook.searchEvent();
+//                        mainPhoneBook.searchEvent();
                         break;
                     }
                     case 6: {
@@ -50,7 +50,7 @@ public class Main {
                         break;
                     }
                     case 7: {
-                        mainPhoneBook.displayAllEvents();
+//                        mainPhoneBook.displayAllEvents();
                         break;
                     }
                     case 8: {
@@ -72,4 +72,4 @@ public class Main {
     }
 }
 
-*/
+
