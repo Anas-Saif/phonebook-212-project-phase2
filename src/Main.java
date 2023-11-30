@@ -34,15 +34,15 @@ public class Main {
                         break;
                     }
                     case 3: {
-//                        mainPhoneBook.deleteContact();
+                        mainPhoneBook.deleteContact();
                         break;
                     }
                     case 4: {
-//                        mainPhoneBook.addEvent();
+                       mainPhoneBook.addEvent();
                         break;
                     }
                     case 5: {
-//                        mainPhoneBook.searchEvent();
+                        mainPhoneBook.searchEvent();
                         break;
                     }
                     case 6: {
@@ -50,7 +50,7 @@ public class Main {
                         break;
                     }
                     case 7: {
-//                        mainPhoneBook.displayAllEvents();
+                        mainPhoneBook.displayAllEvents();
                         break;
                     }
                     case 8: {

@@ -12,7 +12,7 @@ public class PhoneBook {
             // Prompt the user for contact detail
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
-            //contactName = contactName.toLowerCase();
+            contactName = contactName.toLowerCase();
 
             System.out.print("Enter contact phone: ");
             String contactPhone = input.next();
@@ -524,6 +524,7 @@ public class PhoneBook {
             input.nextLine(); //buffer cleaner
             System.out.print("Enter event title: ");
             String eventTitle = input.nextLine();
+            input.nextLine(); //buffer cleaner
             boolean found = false;
             if (!allEvents.empty()) {
                 allEvents.findFirst();
@@ -552,25 +553,51 @@ public class PhoneBook {
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
             boolean found = false;
+
             if (!allEvents.empty()) {
                 allEvents.findFirst();
                 while (!allEvents.last()) {
-                    if (allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)) {
+                    if (isEventLinkedToContact(allEvents.retrieve(), contactName)) {
                         allEvents.retrieve().displayEvent();
                         found = true;
                     }
                     allEvents.findNext();
                 }
-                if (allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)) {
+
+                // Check the last event in the list
+                if (isEventLinkedToContact(allEvents.retrieve(), contactName)) {
                     allEvents.retrieve().displayEvent();
-                    return;
+                    found = true;
                 }
             }
-            if (!found)
-                return;
+
+            if (!found) {
+                System.out.println("No events found for contact '" + contactName + "'.");
+            }
         } catch (InputMismatchException e) {
-            System.out.println("Input miss match");
+            System.out.println("Input mismatch");
         }
+    }
+
+    private boolean isEventLinkedToContact(Event event, String contactName) {
+        if (event instanceof Appointment) {
+            // Check if the appointment's contact matches the provided name
+            return ((Appointment) event).getContactInAppointment().getContactName().equalsIgnoreCase(contactName);
+        } else {
+            // For general events, check each contact in the event's contact list
+            LinkedList<Contact> contacts = ((Events) event).getContactsInEvent(); // Assuming a getContacts() method exists
+            if (!contacts.empty()) {
+                contacts.findFirst();
+                while (!contacts.last()) {
+                    if (contacts.retrieve().getContactName().equalsIgnoreCase(contactName)) {
+                        return true;
+                    }
+                    contacts.findNext();
+                }
+                return contacts.retrieve().getContactName().equalsIgnoreCase(contactName);
+            }
+        }
+        return false;
     }
 
     public void searchEvent() {
@@ -603,9 +630,73 @@ public class PhoneBook {
                 allEvents.findNext();
             }
             allEvents.retrieve().displayEvent();
+            return;
         }
         System.out.println("No events to display");
     }
 
+
+
+    public void deleteContact() {
+        try {
+            System.out.print("Enter contact name: ");
+            String contactName = input.nextLine();
+            contactName = contactName.toLowerCase();
+
+            if (phoneBook.findkey(contactName)) {
+                Contact tmp = phoneBook.retrieve();
+
+                // Update events: delete appointments and remove the contact from events
+                updateEventsForDeletedContact(tmp);
+
+                // Remove the contact from the phone book
+                phoneBook.remove_key(contactName);
+                System.out.println("Contact and associated events updated successfully");
+            } else {
+                System.out.println("Contact not found");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Input mismatch");
+        }
+    }
+    private void updateEventsForDeletedContact(Contact contactToDelete) {
+        if (!allEvents.empty()) {
+            allEvents.findFirst();
+            while (!allEvents.last()) {
+                Event currentEvent = allEvents.retrieve();
+                if (currentEvent instanceof Appointment && ((Appointment) currentEvent).getContactInAppointment().getContactName().equalsIgnoreCase(contactToDelete.getContactName())) {
+                    allEvents.remove(); // Remove the appointment
+                } else if (currentEvent instanceof Events) {
+                    removeFromEventIfPresent(currentEvent, contactToDelete); // Remove the contact from the event
+                    allEvents.findNext();
+                }
+            }
+
+            // Check and update the last event in the list
+            Event currentEvent = allEvents.retrieve();
+            if (currentEvent instanceof Appointment && ((Appointment) currentEvent).getContactInAppointment().getContactName().equalsIgnoreCase(contactToDelete.getContactName())) {
+                allEvents.remove(); // Remove the appointment
+            } else if (currentEvent instanceof Events) {
+                removeFromEventIfPresent(currentEvent, contactToDelete); // Remove the contact from the event
+            }
+        }
+    }
+
+    private void removeFromEventIfPresent(Event event, Contact contact) {
+        LinkedList<Contact> contacts = ((Events)event).getContactsInEvent(); // Assuming Event has getContacts()
+        contacts.findFirst();
+        while (!contacts.last()) {
+            if (contacts.retrieve().equals(contact)) {
+                contacts.remove(); // Remove the contact from the event
+                if (contacts.empty())
+                    allEvents.remove(); // Remove the event if it has no contacts
+                return;
+            }
+            contacts.findNext();
+        }
+        if (contacts.retrieve().equals(contact)) {
+            contacts.remove(); // Check and remove the last contact in the list
+        }
+    }
 
 }

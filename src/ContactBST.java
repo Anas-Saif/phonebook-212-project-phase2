@@ -70,14 +70,6 @@ public class ContactBST <T>{
         return removed;
     }
 
-    //    public boolean remove_key(int tkey) {
-    //        BooleanWrapper removed = new BooleanWrapper(false);
-    //        BSTNode<T> p;
-    //        p = remove_aux(tkey, root, removed);
-    //        current = root = p;
-    //        return removed.get();
-    //    }
-
     private BSTNode<T> remove_aux(String key, BSTNode<T> p, Boolean flag) {
         BSTNode<T> q, child = null;
         if (p == null) return null;
