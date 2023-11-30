@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
- abstract class Event implements Comparable <String> {
+// this Class is super class for Events and appointments classes
+abstract class Event implements Comparable <String> {
     private String title;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

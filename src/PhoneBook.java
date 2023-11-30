@@ -1,9 +1,9 @@
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.ArrayList;
 public class PhoneBook {
     private final ContactBST <Contact> phoneBook = new ContactBST<>(); // Create a Phonebook object
+    private final LinkedList <Event> allEvents = new LinkedList<>();
     Scanner input = new Scanner(System.in); // Create a Scanner object
 
     // Method to add a new contact to the phonebook
@@ -298,6 +298,126 @@ public class PhoneBook {
 
             inOrderSearchByFirstName(node.right, firstName, foundContacts);
         }
+
+
     }
 
+    // Helper method to check if an event exists then return contact object
+    private Contact findContactByName(String name) {
+        if (phoneBook.findkey(name)) {
+            return phoneBook.retrieve();
+        } else {
+            System.out.println("Contact with name '" + name + "' not found.");
+            return null;}}
+    // Method to schedule an event
+    public void addAppointment(){
+        try {
+            System.out.print("Enter event title: ");
+            String eventTitle = input.nextLine();
+
+            input.nextLine(); //buffer cleaner
+            System.out.print("Enter contact name: ");
+            String contactName = input.nextLine();
+            input.nextLine(); //buffer cleaner
+            // Search for the contact by name
+            Contact tmpContact = findContactByName(contactName);
+            if (tmpContact != null){
+                // Prompt for event details
+                System.out.print("Enter event date Ex: YYYY/MM/DD : ");
+                String date = input.next();
+
+                //check date format
+                while (!date.matches("^\\d{4}/\\d{2}/\\d{2}$")) {
+                    System.out.println("Invalid date of birth format. Use (YYYY/MM/DD).");
+                    System.out.print("Enter contact birthday (YYYY/MM/DD): ");
+                    date = input.next();
+                }
+
+                System.out.print("Enter event Start time Ex: HH:MM : ");
+                String startTime = input.next();
+                System.out.print("Enter event End time Ex: HH:MM : ");
+                String endTime = input.next();
+
+                // Parse date and time information and create a LocalDateTime object
+                int year = Integer.parseInt(date.split("/")[0]);
+                int month = Integer.parseInt(date.split("/")[1]);
+                int day = Integer.parseInt(date.split("/")[2]);
+                int startHour = Integer.parseInt(startTime.split(":")[0]);
+                int startMinute = Integer.parseInt(startTime.split(":")[1]);
+                int endHour = Integer.parseInt(endTime.split(":")[0]);
+                int endMinute = Integer.parseInt(endTime.split(":")[1]);
+
+                // represent the event's start and end times
+                LocalDateTime startEvent = LocalDateTime.of(year, month, day, startHour, startMinute);
+                LocalDateTime endEvent = LocalDateTime.of(year, month, day, endHour, endMinute);
+                System.out.print("Enter event location: ");
+                String eventLocation = input.next();
+
+                // Create a new Event object
+                Event tmpEvent = new Appointment(eventTitle, startEvent, endEvent, eventLocation, "Appointment",tmpContact);
+                if (!isConflict(tmpEvent)) {
+                    sortEvent(tmpContact, tmpEvent);
+                    tmpContact.setEventsInContact(tmpEvent);
+                    System.out.println("Event has been added successfully");
+                }
+            } else {
+                System.out.println("The contact does not exist");
+                return;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Input Miss Mach");
+        }
+    }
+
+
+
+    public boolean isConflict(Event e) {
+        if (!allEvents.empty()) {
+            allEvents.findFirst();
+            while (!allEvents.last()) {
+                Event currentEvent = allEvents.retrieve();
+                if (currentEvent.getStartTime().compareTo(e.getEndTime()) < 0
+                        && currentEvent.getEndTime().compareTo(e.getStartTime()) > 0) {
+                    System.out.println("There's a conflict with another event");
+                    return true;
+                }
+                allEvents.findNext();
+            }
+
+            // Check the last event after the loop
+            Event currentEvent = allEvents.retrieve();
+            if (currentEvent.getStartTime().compareTo(e.getEndTime()) < 0
+                    && currentEvent.getEndTime().compareTo(e.getStartTime()) > 0) {
+                System.out.println("There's a conflict with another event");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void sortEvent(Contact c,Event s){
+
+        if (!allEvents.empty()){
+
+            allEvents.findFirst();
+            while (!allEvents.last()){
+                if (s.getTitle().toLowerCase().compareTo(allEvents.retrieve().getTitle().toLowerCase()) <= -1){
+                    Event tmp = allEvents.retrieve();
+                    allEvents.update(s);
+                    allEvents.insert(tmp);
+                    return;
+                }
+                allEvents.findNext();
+            }
+            if (s.getTitle().toLowerCase().compareTo(allEvents.retrieve().getTitle().toLowerCase()) <= -1){
+                Event tmp = allEvents.retrieve();
+                allEvents.update(s);
+                allEvents.insert(tmp);
+                return;
+            }
+
+        }
+        allEvents.insert(s);
+        return;
+    }
 }
