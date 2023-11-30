@@ -233,10 +233,6 @@ public class PhoneBook {
         }
     }
 
-
-
-
-
     public void search(){
         try{
             System.out.println("Search by: ");
