@@ -312,10 +312,9 @@ public class PhoneBook {
     // Method to schedule an event
     public void addAppointment(){
         try {
+            input.nextLine(); //buffer cleaner
             System.out.print("Enter event title: ");
             String eventTitle = input.nextLine();
-
-            input.nextLine(); //buffer cleaner
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
             input.nextLine(); //buffer cleaner
@@ -423,10 +422,10 @@ public class PhoneBook {
 
     public void addEvents() {
         try {
+            input.nextLine(); //buffer cleaner
             System.out.print("Enter event title: ");
             String eventTitle = input.nextLine();
 
-            input.nextLine(); //buffer cleaner
             System.out.print("Enter contacts name separated by a comma: ");
             String contactsName = input.nextLine();
             LinkedList<Contact> contactsInEvent = new LinkedList<>();

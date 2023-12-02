@@ -22,7 +22,8 @@ public class Main {
                 System.out.println("8. Exit");
                 System.out.print("Enter your choice: ");
                 int choice = input.nextInt();
-                input.nextLine();//clear the buffer
+                input.nextLine(); //buffer cleaner
+
 
                 switch (choice) {
                     case 1: {
