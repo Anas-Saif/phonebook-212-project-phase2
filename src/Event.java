@@ -1,3 +1,16 @@
+/****************************************
+ CLASS: Event.java
+ CSC212 Data structures - Project phase II
+ Fall 2023
+ EDIT DATE:
+ 03-12-2023
+ TEAM:
+ Logic
+ AUTHORS:
+ Anas Saif (443106538)
+ Abdullah Alothman (443101712)
+ Mohammed Lazhar (443102272)
+ ****************************************/
 import java.time.LocalDateTime;
 // this Class is super class for Events and appointments classes
 abstract class Event implements Comparable <String> {

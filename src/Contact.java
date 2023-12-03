@@ -1,3 +1,16 @@
+/****************************************
+ CLASS: Contact.java
+ CSC212 Data structures - Project phase II
+ Fall 2023
+ EDIT DATE:
+ 03-12-2023
+ TEAM:
+ Logic
+ AUTHORS:
+ Anas Saif (443106538)
+ Abdullah Alothman (443101712)
+ Mohammed Lazhar (443102272)
+ ****************************************/
 public class Contact implements Comparable <String>{
 
     private String contactName;

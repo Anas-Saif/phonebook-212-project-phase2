@@ -1,3 +1,16 @@
+/****************************************
+ CLASS: ContactBST.java
+ CSC212 Data structures - Project phase II
+ Fall 2023
+ EDIT DATE:
+ 03-12-2023
+ TEAM:
+ Logic
+ AUTHORS:
+ Anas Saif (443106538)
+ Abdullah Alothman (443101712)
+ Mohammed Lazhar (443102272)
+ ****************************************/
 public class ContactBST <T>{
     BSTNode<T> root, current;
     public ContactBST() {
@@ -71,10 +84,10 @@ public class ContactBST <T>{
     }
 
     private BSTNode<T> remove_aux(String key, BSTNode<T> p, Boolean flag) {
-        BSTNode<T> q, child = null;
-        if (p == null) return null;
-        int cmp = key.compareTo(p.key);
-        if (cmp < 0)
+        BSTNode<T> q, child = null;//1
+        if (p == null) return null;//1
+        int cmp = key.compareTo(p.key);//1
+        if (cmp < 0)//1
             p.left = remove_aux(key, p.left, flag); // go left
         else if (cmp > 0)
             p.right = remove_aux(key, p.right, flag); // go right

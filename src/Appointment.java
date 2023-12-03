@@ -1,3 +1,16 @@
+/****************************************
+ CLASS: Appointment.java
+ CSC212 Data structures - Project phase II
+ Fall 2023
+ EDIT DATE:
+ 03-12-2023
+ TEAM:
+ Logic
+ AUTHORS:
+ Anas Saif (443106538)
+ Abdullah Alothman (443101712)
+ Mohammed Lazhar (443102272)
+ ****************************************/
 import java.time.LocalDateTime;
 public class Appointment extends Event {
     private Contact contactInAppointment; // only one contact in an appointment
