@@ -31,7 +31,7 @@ public class PhoneBook {
             String contactPhone = input.next();                                                      //1
 
             //check phone number format
-            while (!contactPhone.matches("\\d{10}")) {                                          //t
+            while (!contactPhone.matches("\\d{10}")) {                                         //t
                 System.out.println("Wrong Phone number format! Please enter 10 numeric digits.");    //t
                 System.out.print("Enter contact Phone Number: ");                                    //t
                 contactPhone = input.next();                                                         //t
