@@ -42,16 +42,18 @@ public class PhoneBook {
 
             System.out.print("Enter contact address: ");                                             //1
             String contactAddress = input.next();                                                    //1
+            input.nextLine(); //buffer cleaner                                                       //1
 
-            System.out.print("Enter contact birthday (YYYY/MM/DD): ");                               //1
-            String contactBirthday = input.next();                                                   //1
+            // Birthday Validation
+            System.out.print("Enter contact birthday (YYYY/MM/DD): ");
+            String contactBirthday = input.next();
+            boolean isBirthdayValid = validateBirthday(contactBirthday);
 
-
-            //check date format
-            while (!contactBirthday.matches("^\\d{4}/\\d{2}/\\d{2}$")) {                        //r
-                System.out.println("Invalid date of birth format. Use (YYYY/MM/DD).");               //r
-                System.out.print("Enter contact birthday (YYYY/MM/DD): ");                           //r
-                contactBirthday = input.next();                                                      //r
+            while (!isBirthdayValid) {
+                System.out.println("Invalid date format or out of range date. Enter date as YYYY/MM/DD, year 1000-2023, month 1-12, day 1-31.");
+                System.out.print("Enter contact birthday (YYYY/MM/DD): ");
+                contactBirthday = input.next();
+                isBirthdayValid = validateBirthday(contactBirthday);
             }
 
             System.out.print("Enter contact notes: ");                                               //1
@@ -78,6 +80,27 @@ public class PhoneBook {
         }
     }
 
+    private boolean validateBirthday(String birthdayStr) {
+        // Check the format first (YYYY/MM/DD)
+        if (!birthdayStr.matches("\\d{4}/\\d{2}/\\d{2}")) {
+            return false;
+        }
+
+        // Now split and validate each part
+        String[] parts = birthdayStr.split("/");
+        if (parts.length == 3) {
+            try {
+                int year = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]);
+                int day = Integer.parseInt(parts[2]);
+                return year >= 1000 && year <= 2023 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
     // Helper method to check if a contact exists
     private boolean contactExists(String name, String phoneNumber) {
         return contactExistsInOrder(phoneBook.root, name, phoneNumber);
@@ -101,7 +124,7 @@ public class PhoneBook {
         return contactExistsInOrder(node.right, name, phoneNumber);
     }
     // Method to search for a contact in the phonebook
-    public void searchByName () {
+    public void searchByName () {  //O(logn)
         System.out.print("Enter contact name: ");
         String contactName = input.nextLine();
         contactName = contactName.toLowerCase();
@@ -651,6 +674,7 @@ public class PhoneBook {
 
     public void deleteContact() {
         try {
+            input.nextLine(); //buffer cleaner                                                  //1
             System.out.print("Enter contact name: ");                                           //1
             String contactName = input.nextLine();                                              //1
             contactName = contactName.toLowerCase();                                            //1
@@ -700,14 +724,15 @@ public class PhoneBook {
         while (!contacts.last()) {
             if (contacts.retrieve().equals(contact)) {
                 contacts.remove(); // Remove the contact from the event
-                if (contacts.empty())
-                    allEvents.remove(); // Remove the event if it has no contacts
                 return;
             }
             contacts.findNext();
         }
         if (contacts.retrieve().equals(contact)) {
-            contacts.remove(); // Check and remove the last contact in the list
+            contacts.remove(); //
+            // Check and remove the last contact in the list
+            if (contacts.empty())
+                allEvents.remove(); // Remove the event if it has no contacts
         }
     }
 

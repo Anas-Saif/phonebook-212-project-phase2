@@ -22,6 +22,7 @@ public class Events extends Event {
 
     public void displayEvent(){
         System.out.println("title: "+super.getTitle());
+        System.out.println("type: "+super.getType());
         System.out.println("starts at: "+ super.getStartTime());
         System.out.println("ends at: "+ super.getEndTime());
         System.out.println("location: "+super.getLocation());
